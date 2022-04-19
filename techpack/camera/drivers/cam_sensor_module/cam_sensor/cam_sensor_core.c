@@ -710,6 +710,74 @@ int cam_sensor_match_id(struct cam_sensor_ctrl_t *s_ctrl)
 	return rc;
 }
 
+int cam_sensor_set_alt_id(struct cam_sensor_ctrl_t *s_ctrl)
+{
+	int rc = 0;
+
+	/* 
+	* ModalAI Hack
+	*
+	* If slave address is 0xE2/0xE4, this is a left/right stereo ov7251.
+	* This address is invalid until we set an alternate slave
+	* address by writing to 0x302B, let's do that before probing
+	*/
+	if(s_ctrl->sensordata->slave_info.sensor_slave_addr == 0xE2 || 
+		s_ctrl->sensordata->slave_info.sensor_slave_addr == 0xE4) {
+
+		struct camera_io_master *io_master_info;
+		io_master_info = &s_ctrl->io_master_info;
+
+		int sensor_idx = &s_ctrl->soc_info.index;
+		CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : Sensor Index   : %lu", sensor_idx);
+		CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : Slave Address  : 0x%02X", s_ctrl->sensordata->slave_info.sensor_slave_addr);
+		CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : Slave sensor id: 0x%02X", s_ctrl->sensordata->slave_info.sensor_id);
+		CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : cci_client sid : 0x%02X", io_master_info->cci_client->sid);
+		
+		/* this will be the new slave address */
+		uint8_t alt_slave = s_ctrl->sensordata->slave_info.sensor_slave_addr;
+		
+		/* but first we need to use a valid one real quick*/
+		io_master_info->cci_client->sid = (0xE0 >> 1);
+		s_ctrl->sensordata->slave_info.sensor_slave_addr = 0xE0;
+
+		struct cam_sensor_i2c_reg_array i2c_reg_array[2];
+		// TODO, reset? 0x0103 --> 0x01
+
+		i2c_reg_array[0].reg_addr = 0x303B; /* SC_REG3B, bit[1] sccb_pgm_id_en */
+		i2c_reg_array[0].reg_data = 0x02;
+		i2c_reg_array[0].delay = 0x00;
+		i2c_reg_array[0].data_mask = 0x00;
+
+		i2c_reg_array[1].reg_addr = 0x302B; /* SC_SCCB_ID2 */
+		i2c_reg_array[1].reg_data = alt_slave;
+		i2c_reg_array[1].delay = 0x00;
+		i2c_reg_array[1].data_mask = 0x00;
+
+		struct cam_sensor_i2c_reg_setting write_setting;
+		write_setting.reg_setting = i2c_reg_array;
+		write_setting.size = 2;
+		write_setting.addr_type = CAMERA_SENSOR_I2C_TYPE_WORD;
+		write_setting.data_type = CAMERA_SENSOR_I2C_TYPE_BYTE;
+		write_setting.delay = 0;
+		write_setting.read_buff = 0;
+		write_setting.read_buff_len = 0;
+
+		rc = camera_io_dev_write(io_master_info, &write_setting);
+
+		if (rc < 0) {
+			CAM_ERR(CAM_SENSOR, "[MODALAI-HACK] : Probe : camera_io_dev_write failed: rc=%d", rc);
+		} else {
+			CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : Probe : Alternate address updated");
+			/* We wrote using 0xE0, and updated the alt address, so use that now! */
+			io_master_info->cci_client->sid = (alt_slave >> 1);
+			s_ctrl->sensordata->slave_info.sensor_slave_addr = alt_slave;
+		}
+	}
+
+	return rc;
+}
+
+
 int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 	void *arg)
 {
@@ -780,9 +848,15 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 		/* Power up and probe sensor */
 		rc = cam_sensor_power_up(s_ctrl);
 		if (rc < 0) {
-			CAM_ERR(CAM_SENSOR, "power up failed");
-			goto free_power_settings;
+			CAM_ERR(CAM_SENSOR, "[MODALAI-HACK] : Probe : power up failed TODO: NEED TO HANDLE");
+			
+			/* ModalAI Hack - allow this to fail for now to debug */
+			rc = 0;
+			//goto free_power_settings;
 		}
+
+		/* ModalAI Hack - right after power up, set alt ID as needed*/
+		rc = cam_sensor_set_alt_id(s_ctrl);
 
 		/* Match sensor ID */
 		rc = cam_sensor_match_id(s_ctrl);
@@ -860,9 +934,15 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 
 		rc = cam_sensor_power_up(s_ctrl);
 		if (rc < 0) {
-			CAM_ERR(CAM_SENSOR, "Sensor Power up failed");
-			goto release_mutex;
+			CAM_ERR(CAM_SENSOR, "[MODALAI-HACK] : Acquire : Sensor Power up failed. TODO");
+			
+			/* ModalAI Hack - allow this to fail for now to debug */
+			rc = 0;
+			//goto release_mutex;
 		}
+
+		/* ModalAI Hack - right after power up, set alt ID as needed*/
+		rc = cam_sensor_set_alt_id(s_ctrl);
 
 		s_ctrl->sensor_state = CAM_SENSOR_ACQUIRE;
 		s_ctrl->last_flush_req = 0;
@@ -1082,6 +1162,7 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 			s_ctrl->sensordata->slave_info.sensor_slave_addr);
 	}
 		break;
+
 	default:
 		CAM_ERR(CAM_SENSOR, "Invalid Opcode: %d", cmd->op_code);
 		rc = -EINVAL;

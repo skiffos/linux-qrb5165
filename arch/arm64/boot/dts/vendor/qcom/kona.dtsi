@@ -51,11 +51,16 @@
 		pci-domain0 = &pcie0; /* PCIe0 domain */
 		pci-domain1 = &pcie1; /* PCIe1 domain */
 		pci-domain2 = &pcie2; /* PCIe2 domain */
-		serial0 = &qupv3_se2_2uart; /* RUMI */
+		serial0 = &qupv3_se19_2uart;
 		swr0 = &swr0;
 		swr1 = &swr1;
 		swr2 = &swr2;
 		mhi-netdev0 = &mhi_netdev_0;
+		spi0 = &qupv3_se0_spi;
+		spi1 = &qupv3_se1_spi;
+		spi3 = &qupv3_se3_spi;
+		spi5 = &qupv3_se5_spi;
+		spi14 = &qupv3_se14_spi;
 	};
 
 	cpus {
@@ -5048,16 +5053,3 @@
 #include "kona-gpu.dtsi"
 #include "msm-qvr-external.dtsi"
 #include "ipcc-test.dtsi"
-
-&qupv3_se15_i2c {
-	status = "ok";
-	nq@64 {
-		compatible = "rtc6226";
-		reg = <0x64>;
-		fmint-gpio = <&tlmm 51 0>;
-		vdd-supply = <&pm8150a_bob>;
-		rtc6226,vdd-supply-voltage = <3296000 3296000>;
-		vio-supply = <&pm8150_s4>;
-		rtc6226,vio-supply-voltage = <1800000 1800000 >;
-	};
-};
