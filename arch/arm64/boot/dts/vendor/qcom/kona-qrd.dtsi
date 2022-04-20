@@ -1,7 +1,7 @@
 #include <dt-bindings/gpio/gpio.h>
 #include "kona-pmic-overlay.dtsi"
 #include "kona-sde-display.dtsi"
-#include "camera/kona-camera-sensor-qrd.dtsi"
+
 #include "kona-audio-overlay.dtsi"
 #include "kona-thermal-overlay.dtsi"
 
@@ -325,7 +325,7 @@
 	redriver: redriver@1c {
 		compatible = "onnn,redriver";
 		reg = <0x1c>;
-		extcon = <&pm8150b_pdphy>, <&pm8150b_pdphy>;
+		extcon = <&pm8150b_pdphy>;
 		eq = /bits/ 8 <
 				/* Parameters for USB */
 				0x4 0x4 0x4 0x4

@@ -206,7 +206,7 @@
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi_active &sde_te_active>;
 		pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend>;
-
+		status = "disabled";
 		qcom,platform-te-gpio = <&tlmm 66 0>;
 		qcom,panel-te-source = <0>;
 
@@ -243,7 +243,7 @@
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi1_active &sde_te1_active>;
 		pinctrl-1 = <&sde_dsi1_suspend &sde_te1_suspend>;
-
+		status = "disabled";                
 		qcom,platform-te-gpio = <&tlmm 67 0>;
 		qcom,panel-te-source = <1>;
 
@@ -277,10 +277,11 @@
 	pinctrl-names = "mdss_dp_active", "mdss_dp_sleep";
 	pinctrl-0 = <&sde_dp_usbplug_cc_active>;
 	pinctrl-1 = <&sde_dp_usbplug_cc_suspend>;
+        status = "disabled";
 };
 
 &mdss_mdp {
-	connectors = <&sde_dp &sde_wb &sde_dsi &sde_dsi1 &sde_rscc>;
+	connectors = <&sde_wb &sde_rscc>;
 };
 
 /* PHY TIMINGS REVISION W */

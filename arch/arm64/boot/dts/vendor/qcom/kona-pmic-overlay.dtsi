@@ -212,6 +212,6 @@
 	 extcon = <&pm8150b_pdphy>;
 };
 
-&sde_dp {
+/*&sde_dp {
 	extcon = <&pm8150b_pdphy>;
-};
+};*/
