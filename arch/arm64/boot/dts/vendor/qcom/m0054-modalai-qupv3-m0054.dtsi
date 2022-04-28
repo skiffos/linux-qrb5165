@@ -1,0 +1,96 @@
+/* M0054 - J6 - Camera Group 0 - GPIO 28-31 */
+&qupv3_se0_spi {
+	status = "ok";
+	spidev@0 {
+		compatible = "spidev";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+	};
+};
+
+/* M0054 - not used as I2C, exposed as Camera SPI */
+&qupv3_se1_i2c {
+	status = "disabled";
+};
+
+/* M0054 - J7 - Camera Group 1 - GPIO 4-7 */
+&qupv3_se1_spi {
+	status = "ok";
+	spidev@0 {
+		compatible = "spidev";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+	};
+};
+
+/* M0054 - IMU1 - GPIO 119-122 */
+&qupv3_se3_spi {
+	status = "ok";
+	spidev@0 {
+		compatible = "spidev";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+	};
+};
+
+/* M0054 - J8 - Camera Group 2 - GPIO 12-15 */
+&qupv3_se5_spi {
+	status = "ok";
+	spidev@0 {
+		compatible = "spidev";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+	};
+};
+
+/* M0054 - HS B2B, GPIO 16-19 */
+&qupv3_se6_4uart {
+	status = "disabled";
+};
+
+
+
+/* M0054 - B2B I2C - GPIO 125-126 */
+&qupv3_se9_i2c {
+	status = "ok";
+};
+
+/* M0054 - B2B I2C - GPIO 129-130 */
+&qupv3_se10_i2c {
+	status = "ok";
+};
+
+/* M0054 - Debug Console */
+&qupv3_se12_2uart {
+	status = "ok";
+};
+
+/* M0054 - not used as I2C GPIO 36-37 */
+&qupv3_se13_i2c {
+	status = "disabled";
+};
+
+/* M0054 - TODO: enable HS B2B GPIO 36-39. */
+&qupv3_se13_4uart {
+	status = "disabled";
+};
+
+/* M0054 - J10 - GPIO 40-44 */
+&qupv3_se14_spi {
+	status = "ok";
+	spidev@0 {
+		compatible = "spidev";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+	};
+};
+
+/* M0054 - J3 B2B, GPIO 52-55, used as GPIO */
+&qupv3_se17_spi {
+	status = "disabled";
+};
+
+/* HSB2B - External 2W UART */
+&qupv3_se19_2uart {
+	status = "ok";
+};

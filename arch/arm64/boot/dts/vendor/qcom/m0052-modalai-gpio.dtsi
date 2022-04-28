@@ -1,0 +1,15 @@
+&soc {
+	b2b_conn_gpio_init {
+		compatible = "modalai,voxl-b2b";
+		pinctrl-names = "default";
+		pinctrl-0 = <&tck22912G_ctrl_pin &b2b_pin7 &b2b_pin9 &b2b_pin17 &b2b_pin19 &b2b_pin38 &b2b_pin40 &hs_b2b_pin46 &hs_b2b_pin47 &hs_b2b_pin50 &hs_b2b_pin51>;
+		status = "ok";
+	};
+
+	rc_in_enable_init {
+		compatible = "modalai,voxl-rc-in";
+		pinctrl-names = "default";
+		pinctrl-0 = <&rc_in_3v3_en_pin>;
+		status = "ok";
+	};
+};
