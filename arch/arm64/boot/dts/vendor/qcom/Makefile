@@ -1,106 +1,170 @@
-ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
-        dtbo-$(CONFIG_ARCH_KONA) += \
-                kona-cdp-overlay.dtbo \
-                kona-cdp-lcd-overlay.dtbo \
-                kona-mtp-overlay.dtbo \
-                kona-mtp-ws-overlay.dtbo \
-		kona-sa-mtp-overlay.dtbo \
-                kona-xr-overlay.dtbo \
-                kona-rumi-overlay.dtbo \
-                kona-qrd-overlay.dtbo \
-		kona-xrfusion-overlay.dtbo \
-		kona-xrfusion-ult-overlay.dtbo \
-                kona-hdk-overlay.dtbo
+ifeq ($(PLATFORM_TYPE),m0054)
+        ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
+                dtbo-$(CONFIG_ARCH_KONA) += \
+                        m0054-kona-cdp-overlay.dtbo \
+                        m0054-kona-cdp-lcd-overlay.dtbo \
+                        m0054-kona-mtp-overlay.dtbo \
+                        m0054-kona-mtp-ws-overlay.dtbo \
+        		m0054-kona-sa-mtp-overlay.dtbo \
+                        m0054-kona-xr-overlay.dtbo \
+                        m0054-kona-rumi-overlay.dtbo \
+                        m0054-kona-qrd-overlay.dtbo \
+        		m0054-kona-xrfusion-overlay.dtbo \
+        		m0054-kona-xrfusion-ult-overlay.dtbo \
+                        m0054-kona-hdk-overlay.dtbo
 
-kona-cdp-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-cdp-lcd-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-mtp-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-mtp-ws-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-sa-mtp-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-xr-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-rumi-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-qrd-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-xrfusion-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-xrfusion-ult-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-kona-hdk-overlay.dtbo-base := kona.dtb kona-v2.dtb kona-v2.1.dtb
-else
-dtb-$(CONFIG_ARCH_KONA) += kona-rumi.dtb \
-        kona-mtp.dtb \
-        kona-mtp-ws.dtb \
-        kona-mtp-sa.dtb \
-        kona-xr.dtb \
-	kona-xrfusion.dtb \
-	kona-xrfusion-ult.dtb \
-        kona-cdp.dtb \
-        kona-cdp-lcd.dtb \
-        kona-qrd.dtb \
-        kona-v2-rumi.dtb \
-        kona-v2-mtp.dtb \
-        kona-v2-mtp-ws.dtb \
-        kona-v2-mtp-sa.dtb \
-        kona-v2-cdp.dtb \
-        kona-v2-qrd.dtb \
-	kona-v2-xrfusion.dtb \
-	kona-v2-xrfusion-ult.dtb \
-        kona-hdk.dtb \
-        kona-v2.1-mtp.dtb \
-        kona-v2.1-mtp-ws.dtb \
-        kona-v2.1-mtp-sa.dtb \
-        kona-v2.1-cdp.dtb \
-        kona-v2.1-qrd.dtb \
-        kona-v2.1-hdk.dtb \
-        kona-v2.1-xrfusion.dtb \
-        kona-v2.1-xrfusion-ult.dtb \
-        qrb5165-iot-rb5.dtb \
-        qrb5165n-iot-rb5.dtb \
-        kona-v2.1-iot-rb5.dtb
+        m0054-kona-cdp-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-cdp-lcd-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-mtp-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-mtp-ws-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-sa-mtp-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-xr-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-rumi-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-qrd-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-xrfusion-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-xrfusion-ult-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        m0054-kona-hdk-overlay.dtbo-base := m0054-kona.dtb m0054-kona-v2.dtb m0054-kona-v2.1.dtb
+        else
+                dtb-$(CONFIG_ARCH_KONA) += m0054-kona-rumi.dtb \
+                m0054-kona-mtp.dtb \
+                m0054-kona-mtp-ws.dtb \
+                m0054-kona-mtp-sa.dtb \
+                m0054-kona-xr.dtb \
+        	m0054-kona-xrfusion.dtb \
+        	m0054-kona-xrfusion-ult.dtb \
+                m0054-kona-cdp.dtb \
+                m0054-kona-cdp-lcd.dtb \
+                m0054-kona-qrd.dtb \
+                m0054-kona-v2-rumi.dtb \
+                m0054-kona-v2-mtp.dtb \
+                m0054-kona-v2-mtp-ws.dtb \
+                m0054-kona-v2-mtp-sa.dtb \
+                m0054-kona-v2-cdp.dtb \
+                m0054-kona-v2-qrd.dtb \
+        	m0054-kona-v2-xrfusion.dtb \
+        	m0054-kona-v2-xrfusion-ult.dtb \
+                m0054-kona-hdk.dtb \
+                m0054-kona-v2.1-mtp.dtb \
+                m0054-kona-v2.1-mtp-ws.dtb \
+                m0054-kona-v2.1-mtp-sa.dtb \
+                m0054-kona-v2.1-cdp.dtb \
+                m0054-kona-v2.1-qrd.dtb \
+                m0054-kona-v2.1-hdk.dtb \
+                m0054-kona-v2.1-xrfusion.dtb \
+                m0054-kona-v2.1-xrfusion-ult.dtb \
+                m0054-qrb5165-iot-rb5.dtb \
+                m0054-qrb5165n-iot-rb5.dtb \
+                m0054-kona-v2.1-iot-rb5.dtb
+        endif
 endif
 
-ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
-dtbo-$(CONFIG_ARCH_LITO) += lito-rumi-overlay.dtbo \
-                lito-mtp-overlay.dtbo \
-                lito-v2-mtp-overlay.dtbo \
-                lito-cdp-overlay.dtbo \
-                lito-v2-cdp-overlay.dtbo \
-                lito-atp-overlay.dtbo \
-                lito-v2-atp-overlay.dtbo \
-                lito-v2-atp-lcd-overlay.dtbo \
-                lito-qrd-overlay.dtbo \
-                lito-v2-qrd-overlay.dtbo \
-                litomagnus-mtp-overlay.dtbo \
-                litomagnus-cdp-overlay.dtbo \
-                orchid-mtp-overlay.dtbo \
-                orchid-cdp-overlay.dtbo
+ifeq ($(PLATFORM_TYPE),m0052)
+        ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
+                dtbo-$(CONFIG_ARCH_KONA) += \
+                        m0052-kona-cdp-overlay.dtbo \
+                        m0052-kona-cdp-lcd-overlay.dtbo \
+                        m0052-kona-mtp-overlay.dtbo \
+                        m0052-kona-mtp-ws-overlay.dtbo \
+        		m0052-kona-sa-mtp-overlay.dtbo \
+                        m0052-kona-xr-overlay.dtbo \
+                        m0052-kona-rumi-overlay.dtbo \
+                        m0052-kona-qrd-overlay.dtbo \
+        		m0052-kona-xrfusion-overlay.dtbo \
+        		m0052-kona-xrfusion-ult-overlay.dtbo \
+                        m0052-kona-hdk-overlay.dtbo
 
-lito-rumi-overlay.dtbo-base := lito.dtb lito-v2.dtb
-lito-mtp-overlay.dtbo-base := lito.dtb
-lito-v2-mtp-overlay.dtbo-base := lito-v2.dtb
-lito-cdp-overlay.dtbo-base := lito.dtb
-lito-v2-cdp-overlay.dtbo-base := lito-v2.dtb
-lito-atp-overlay.dtbo-base := lito.dtb
-lito-v2-atp-overlay.dtbo-base := lito-v2.dtb
-lito-v2-atp-lcd-overlay.dtbo-base := lito-v2.dtb
-lito-qrd-overlay.dtbo-base := lito.dtb
-lito-v2-qrd-overlay.dtbo-base := lito-v2.dtb
-litomagnus-mtp-overlay.dtbo-base := litomagnus.dtb
-litomagnus-cdp-overlay.dtbo-base := litomagnus.dtb
-orchid-mtp-overlay.dtbo-base := orchid.dtb
-orchid-cdp-overlay.dtbo-base := orchid.dtb
-else
-dtb-$(CONFIG_ARCH_LITO) += lito-rumi.dtb \
-                lito-mtp.dtb \
-                lito-cdp.dtb \
-                lito-atp.dtb \
-                lito-qrd.dtb \
-                lito-v2-mtp.dtb \
-                lito-v2-cdp.dtb \
-                lito-v2-atp.dtb \
-                lito-v2-atp-lcd.dtb \
-                lito-v2-qrd.dtb \
-                litomagnus-mtp.dtb \
-                litomagnus-cdp.dtb \
-                orchid-mtp.dtb \
-                orchid-cdp.dtb
+        m0052-kona-cdp-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-cdp-lcd-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-mtp-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-mtp-ws-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-sa-mtp-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-xr-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-rumi-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-qrd-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-xrfusion-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-xrfusion-ult-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        m0052-kona-hdk-overlay.dtbo-base := m0052-kona.dtb m0052-kona-v2.dtb m0052-kona-v2.1.dtb
+        else
+                dtb-$(CONFIG_ARCH_KONA) += m0052-kona-rumi.dtb \
+                m0052-kona-mtp.dtb \
+                m0052-kona-mtp-ws.dtb \
+                m0052-kona-mtp-sa.dtb \
+                m0052-kona-xr.dtb \
+        	m0052-kona-xrfusion.dtb \
+        	m0052-kona-xrfusion-ult.dtb \
+                m0052-kona-cdp.dtb \
+                m0052-kona-cdp-lcd.dtb \
+                m0052-kona-qrd.dtb \
+                m0052-kona-v2-rumi.dtb \
+                m0052-kona-v2-mtp.dtb \
+                m0052-kona-v2-mtp-ws.dtb \
+                m0052-kona-v2-mtp-sa.dtb \
+                m0052-kona-v2-cdp.dtb \
+                m0052-kona-v2-qrd.dtb \
+        	m0052-kona-v2-xrfusion.dtb \
+        	m0052-kona-v2-xrfusion-ult.dtb \
+                m0052-kona-hdk.dtb \
+                m0052-kona-v2.1-mtp.dtb \
+                m0052-kona-v2.1-mtp-ws.dtb \
+                m0052-kona-v2.1-mtp-sa.dtb \
+                m0052-kona-v2.1-cdp.dtb \
+                m0052-kona-v2.1-qrd.dtb \
+                m0052-kona-v2.1-hdk.dtb \
+                m0052-kona-v2.1-xrfusion.dtb \
+                m0052-kona-v2.1-xrfusion-ult.dtb \
+                m0052-qrb5165-iot-rb5.dtb \
+                m0052-qrb5165n-iot-rb5.dtb \
+                m0052-kona-v2.1-iot-rb5.dtb
+        endif
+endif
+
+ifeq ($(PLATFORM_TYPE),qrb5165)
+        ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
+        dtbo-$(CONFIG_ARCH_LITO) += lito-rumi-overlay.dtbo \
+                        lito-mtp-overlay.dtbo \
+                        lito-v2-mtp-overlay.dtbo \
+                        lito-cdp-overlay.dtbo \
+                        lito-v2-cdp-overlay.dtbo \
+                        lito-atp-overlay.dtbo \
+                        lito-v2-atp-overlay.dtbo \
+                        lito-v2-atp-lcd-overlay.dtbo \
+                        lito-qrd-overlay.dtbo \
+                        lito-v2-qrd-overlay.dtbo \
+                        litomagnus-mtp-overlay.dtbo \
+                        litomagnus-cdp-overlay.dtbo \
+                        orchid-mtp-overlay.dtbo \
+                        orchid-cdp-overlay.dtbo
+
+        lito-rumi-overlay.dtbo-base := lito.dtb lito-v2.dtb
+        lito-mtp-overlay.dtbo-base := lito.dtb
+        lito-v2-mtp-overlay.dtbo-base := lito-v2.dtb
+        lito-cdp-overlay.dtbo-base := lito.dtb
+        lito-v2-cdp-overlay.dtbo-base := lito-v2.dtb
+        lito-atp-overlay.dtbo-base := lito.dtb
+        lito-v2-atp-overlay.dtbo-base := lito-v2.dtb
+        lito-v2-atp-lcd-overlay.dtbo-base := lito-v2.dtb
+        lito-qrd-overlay.dtbo-base := lito.dtb
+        lito-v2-qrd-overlay.dtbo-base := lito-v2.dtb
+        litomagnus-mtp-overlay.dtbo-base := litomagnus.dtb
+        litomagnus-cdp-overlay.dtbo-base := litomagnus.dtb
+        orchid-mtp-overlay.dtbo-base := orchid.dtb
+        orchid-cdp-overlay.dtbo-base := orchid.dtb
+        else
+        dtb-$(CONFIG_ARCH_LITO) += lito-rumi.dtb \
+                        lito-mtp.dtb \
+                        lito-cdp.dtb \
+                        lito-atp.dtb \
+                        lito-qrd.dtb \
+                        lito-v2-mtp.dtb \
+                        lito-v2-cdp.dtb \
+                        lito-v2-atp.dtb \
+                        lito-v2-atp-lcd.dtb \
+                        lito-v2-qrd.dtb \
+                        litomagnus-mtp.dtb \
+                        litomagnus-cdp.dtb \
+                        orchid-mtp.dtb \
+                        orchid-cdp.dtb
+        endif
 endif
 
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)

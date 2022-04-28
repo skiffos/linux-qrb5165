@@ -1,0 +1,10 @@
+/dts-v1/;
+
+#include "m0052-kona.dtsi"
+#include "m0052-kona-mtp.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. kona MTP";
+	compatible = "qcom,kona-mtp", "qcom,kona", "qcom,mtp";
+	qcom,board-id = <0x10008 0>;
+};
