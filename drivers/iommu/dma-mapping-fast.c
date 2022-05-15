@@ -471,13 +471,13 @@ static void fast_smmu_unmap_sg(struct device *dev,
 	 * The scatterlist segments are mapped into a single
 	 * contiguous IOVA allocation, so this is incredibly easy.
 	 */
-	start = sg_dma_address(sg);
+	start = sg_dma_address(sg) & FAST_PAGE_MASK;
 	for_each_sg(sg_next(sg), tmp, nelems - 1, i) {
 		if (sg_dma_len(tmp) == 0)
 			break;
 		sg = tmp;
 	}
-	len = sg_dma_address(sg) + sg_dma_len(sg) - start;
+	len = ALIGN(sg_dma_address(sg) + sg_dma_len(sg) - start, FAST_PAGE_SIZE);
 
 	av8l_fast_unmap_public(mapping->pgtbl_ops, start, len);
 
