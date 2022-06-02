@@ -728,10 +728,10 @@ int cam_sensor_set_alt_id(struct cam_sensor_ctrl_t *s_ctrl)
 		io_master_info = &s_ctrl->io_master_info;
 
 		int sensor_idx = &s_ctrl->soc_info.index;
-		CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : Sensor Index   : %lu", sensor_idx);
-		CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : Slave Address  : 0x%02X", s_ctrl->sensordata->slave_info.sensor_slave_addr);
-		CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : Slave sensor id: 0x%02X", s_ctrl->sensordata->slave_info.sensor_id);
-		CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : cci_client sid : 0x%02X", io_master_info->cci_client->sid);
+		CAM_INFO(CAM_SENSOR, "[Applying Alternative Address] : Sensor Index   : %lu", sensor_idx);
+		CAM_INFO(CAM_SENSOR, "[Applying Alternative Address] : Slave Address  : 0x%02X", s_ctrl->sensordata->slave_info.sensor_slave_addr);
+		CAM_INFO(CAM_SENSOR, "[Applying Alternative Address] : Slave sensor id: 0x%02X", s_ctrl->sensordata->slave_info.sensor_id);
+		CAM_INFO(CAM_SENSOR, "[Applying Alternative Address] : cci_client sid : 0x%02X", io_master_info->cci_client->sid);
 		
 		/* this will be the new slave address */
 		uint8_t alt_slave = s_ctrl->sensordata->slave_info.sensor_slave_addr;
@@ -765,9 +765,9 @@ int cam_sensor_set_alt_id(struct cam_sensor_ctrl_t *s_ctrl)
 		rc = camera_io_dev_write(io_master_info, &write_setting);
 
 		if (rc < 0) {
-			CAM_ERR(CAM_SENSOR, "[MODALAI-HACK] : Probe : camera_io_dev_write failed: rc=%d", rc);
+			CAM_ERR(CAM_SENSOR, "[Applying Alternative Address] : Probe : camera_io_dev_write failed: rc=%d", rc);
 		} else {
-			CAM_INFO(CAM_SENSOR, "[MODALAI-HACK] : Probe : Alternate address updated");
+			CAM_INFO(CAM_SENSOR, "[Applying Alternative Address] : Probe : Alternate address updated");
 			/* We wrote using 0xE0, and updated the alt address, so use that now! */
 			io_master_info->cci_client->sid = (alt_slave >> 1);
 			s_ctrl->sensordata->slave_info.sensor_slave_addr = alt_slave;
@@ -848,7 +848,7 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 		/* Power up and probe sensor */
 		rc = cam_sensor_power_up(s_ctrl);
 		if (rc < 0) {
-			CAM_ERR(CAM_SENSOR, "[MODALAI-HACK] : Probe : power up failed TODO: NEED TO HANDLE");
+			CAM_ERR(CAM_SENSOR, "[Applying Alternative Address] : Probe : power up failed TODO: NEED TO HANDLE");
 			
 			/* ModalAI Hack - allow this to fail for now to debug */
 			rc = 0;
@@ -934,7 +934,7 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 
 		rc = cam_sensor_power_up(s_ctrl);
 		if (rc < 0) {
-			CAM_ERR(CAM_SENSOR, "[MODALAI-HACK] : Acquire : Sensor Power up failed. TODO");
+			CAM_ERR(CAM_SENSOR, "[Applying Alternative Address] : Acquire : Sensor Power up failed. TODO");
 			
 			/* ModalAI Hack - allow this to fail for now to debug */
 			rc = 0;
