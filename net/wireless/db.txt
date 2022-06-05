@@ -1,21 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0-only
-# This is the world regulatory domain
-country 00:
-	(2402 - 2472 @ 40), (20)
-	# Channel 12 - 13.
-	(2457 - 2482 @ 40), (20), PASSIVE-SCAN, NO-IBSS
-	# Channel 14. Only JP enables this and for 802.11b only
-	(2474 - 2494 @ 20), (20), PASSIVE-SCAN, NO-IBSS, NO-OFDM
-	# Channel 36 - 48
-	(5170 - 5250 @ 80), (20), PASSIVE-SCAN, NO-IBSS
-	(5250 - 5330 @ 80), (20), PASSIVE-SCAN, NO-IBSS
-	(5490 - 5710 @ 80), (20), PASSIVE-SCAN, NO-IBSS
-	# NB: 5260 MHz - 5700 MHz requies DFS
-	# Channel 149 - 165
-	(5735 - 5835 @ 80), (20), PASSIVE-SCAN, NO-IBSS
-	# IEEE 802.11ad (60GHz), channels 1..3
-	(57240 - 63720 @ 2160), (0)
 
+# ModalAI: Use for WiFi Broadcast
+country 00:
+	(2302 - 2742 @ 40), (30)
+	(4910 - 5835 @ 160), (30)
 
 country AE: DFS-ETSI
 	(2402 - 2482 @ 40), (20)
