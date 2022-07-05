@@ -13,7 +13,7 @@
 	status = "disabled";
 };
 
-/* M0054 - J7 - Camera Group 1 - GPIO 4-7 */
+/* M0052 - J7 - Camera Group 1 - GPIO 4-7 */
 &qupv3_se1_spi {
 	status = "ok";
 	spidev@0 {
@@ -21,6 +21,11 @@
 		reg = <0>;
 		spi-max-frequency = <50000000>;
 	};
+};
+
+/* M0052 - J5 HS B2B pins 9/10 */
+&qupv3_se2_2uart {
+	status = "ok";
 };
 
 /* M0052 - IMU1 - GPIO 119-122 */
@@ -45,6 +50,11 @@
 
 /* M0052 - HST_BT_UART?, GPIO 16-19 */
 &qupv3_se6_4uart {
+	status = "ok";
+};
+
+/* M0052 - J3 B2B pins 3/5 */
+&qupv3_se7_2uart {
 	status = "ok";
 };
 
