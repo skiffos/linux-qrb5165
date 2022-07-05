@@ -104,7 +104,7 @@
 		qcom,wrapper-core = <&qupv3_0>;
 	};
 
-	qupv3_se7_4uart: i2c@99c000 {
+	qupv3_se7_2uart: i2c@99c000 {
 		compatible = "qcom,msm-geni-serial-hs";
 		reg = <0x99c000 0x4000>;
 		reg-names = "se_phys";
