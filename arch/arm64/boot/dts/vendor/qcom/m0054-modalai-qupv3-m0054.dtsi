@@ -48,7 +48,10 @@
 	status = "disabled";
 };
 
-
+/* M0052 - J3 B2B pins 3/5 */
+&qupv3_se7_2uart {
+	status = "ok";
+};
 
 /* M0054 - B2B I2C - GPIO 125-126 */
 &qupv3_se9_i2c {

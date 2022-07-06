@@ -51,7 +51,8 @@
 		pci-domain0 = &pcie0; /* PCIe0 domain */
 		pci-domain1 = &pcie1; /* PCIe1 domain */
 		pci-domain2 = &pcie2; /* PCIe2 domain */
-		serial0 = &qupv3_se19_2uart;
+		serial0 = &qupv3_se7_2uart;  /* J3 B2B pins 3/5 */
+		serial1 = &qupv3_se19_2uart; /* J5 HS B2B pins 48/49 */
 		swr0 = &swr0;
 		swr1 = &swr1;
 		swr2 = &swr2;
