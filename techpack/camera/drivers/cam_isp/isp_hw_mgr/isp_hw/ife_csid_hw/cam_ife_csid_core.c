@@ -3483,7 +3483,7 @@ static int cam_ife_csid_get_time_stamp(
 	csid_hw->prev_qtimer_ts = time_stamp->time_stamp_val;
 
 	// ModalAI: fix for timestamp drift
-	//csid_hw->prev_boot_timestamp = time_stamp->boot_timestamp;
+	csid_hw->prev_boot_timestamp = time_stamp->boot_timestamp;
 
 	return 0;
 }
