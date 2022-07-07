@@ -36,8 +36,8 @@
 		status = "disabled";
 	};
 
-       /* QUPV3_0_SE1 */
-       i3c1: i3c-master@984000 {
+	/* QUPV3_0_SE1 */
+	i3c1: i3c-master@984000 {
 		compatible = "qcom,geni-i3c";
 		reg = <0x984000 0x4000>,
 			<0xEC40000 0x10000>;
@@ -79,8 +79,15 @@
 	};
 
 	/*
-	 * HS UART instances. HS UART usecases can be supported on these
-	 * instances only.
+	 * IMPORTANT
+	 *
+	 * The msm_geni_serial driver probes the UARTs in the order they
+	 * appear below, which determines the X in /dev/ttyHSX
+	 *
+	 */
+
+	/*
+	 * qupv3_0 - /dev/ttyHS0
 	 */
 	qupv3_se6_4uart: qcom,qup_uart@998000 {
 		compatible = "qcom,msm-geni-serial-hs";
@@ -102,6 +109,126 @@
 		status = "disabled";
 		qcom,wakeup-byte = <0xFD>;
 		qcom,wrapper-core = <&qupv3_0>;
+	};
+
+	/*
+	 * qupv3_1 - /dev/ttyHS1
+	 */
+	qupv3_se13_4uart: qcom,qup_uart@a94000 {
+		compatible = "qcom,msm-geni-serial-hs";
+		reg = <0xa94000 0x4000>;
+		reg-names = "se_phys";
+		clock-names = "se-clk", "m-ahb", "s-ahb";
+		clocks = <&clock_gcc GCC_QUPV3_WRAP1_S5_CLK>,
+			<&clock_gcc GCC_QUPV3_WRAP_1_M_AHB_CLK>,
+			<&clock_gcc GCC_QUPV3_WRAP_1_S_AHB_CLK>;
+		pinctrl-names = "default", "active", "sleep";
+		pinctrl-0 = <&qupv3_se13_default_cts>,
+			<&qupv3_se13_default_rtsrx>, <&qupv3_se13_default_tx>;
+		pinctrl-1 = <&qupv3_se13_ctsrx>, <&qupv3_se13_rts>,
+							<&qupv3_se13_tx>;
+		pinctrl-2 = <&qupv3_se13_ctsrx>, <&qupv3_se13_rts>,
+							<&qupv3_se13_tx>;
+		interrupts-extended = <&intc GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>,
+					<&tlmm 39 0>;
+		status = "disabled";
+		qcom,wakeup-byte = <0xFD>;
+		qcom,wrapper-core = <&qupv3_1>;
+	};
+
+	/* QUPv3_2  wrapper  instance : South_2 QUP */
+	qupv3_2: qcom,qupv3_2_geni_se@8c0000 {
+		compatible = "qcom,qupv3-geni-se";
+		reg = <0x8c0000 0x2000>;
+		qcom,bus-mas-id = <MSM_BUS_MASTER_QUP_2>;
+		qcom,bus-slv-id = <MSM_BUS_SLAVE_EBI_CH0>;
+		iommus = <&apps_smmu 0x63 0x0>;
+		qcom,iommu-dma-addr-pool = <0x40000000 0xc0000000>;
+		qcom,iommu-dma = "fastmap";
+	};
+
+	/*
+	 * qupv3_2 - /dev/ttyHS2
+	 */
+	qupv3_se18_2uart: qcom,qup_uart@890000 {
+		compatible = "qcom,msm-geni-serial-hs";
+		reg = <0x890000 0x4000>;
+		reg-names = "se_phys";
+		clock-names = "se-clk", "m-ahb", "s-ahb";
+		clocks = <&clock_gcc GCC_QUPV3_WRAP2_S4_CLK>,
+				<&clock_gcc GCC_QUPV3_WRAP_2_M_AHB_CLK>,
+				<&clock_gcc GCC_QUPV3_WRAP_2_S_AHB_CLK>;
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&qupv3_se18_rx>, <&qupv3_se18_tx>;
+		pinctrl-1 = <&qupv3_se18_rx>, <&qupv3_se18_tx>;
+		interrupts-extended = <&intc GIC_SPI 586 IRQ_TYPE_LEVEL_HIGH>,
+						<&tlmm 59 0>;
+		status = "disabled";
+		qcom,wakeup-byte = <0xFD>;
+		qcom,wrapper-core = <&qupv3_2>;
+	};
+
+	/*
+	 * qupv3_0 - /dev/ttyHS3
+	 */
+	qupv3_se5_2uart: qcom,qup_uart@994000 {
+		compatible = "qcom,msm-geni-serial-hs";
+		reg = <0x994000 0x4000>;
+		reg-names = "se_phys";
+		clock-names = "se-clk", "m-ahb", "s-ahb";
+		clocks = <&clock_gcc GCC_QUPV3_WRAP0_S5_CLK>,
+			<&clock_gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
+			<&clock_gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&qupv3_se5_rx>, <&qupv3_se5_tx>;
+		pinctrl-1 = <&qupv3_se5_rx>, <&qupv3_se5_tx>;
+		interrupts-extended = <&intc GIC_SPI 606 IRQ_TYPE_LEVEL_HIGH>,
+						<&tlmm 15 0>;
+		status = "disabled";
+		qcom,wakeup-byte = <0xFD>;
+		qcom,wrapper-core = <&qupv3_0>;
+	};
+
+	/*
+	 * qupv3_0 - /dev/ttyHS4
+	 */
+	qupv3_se7_2uart: qcom,qup_uart@99c000 {
+		compatible = "qcom,msm-geni-serial-hs";
+		reg = <0x99c000 0x4000>;
+		reg-names = "se_phys";
+		clock-names = "se-clk", "m-ahb", "s-ahb";
+		clocks = <&clock_gcc GCC_QUPV3_WRAP0_S7_CLK>,
+			<&clock_gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
+			<&clock_gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&qupv3_se7_rx>, <&qupv3_se7_tx>;
+		pinctrl-1 = <&qupv3_se7_rx>, <&qupv3_se7_tx>;
+		interrupts-extended = <&intc GIC_SPI 608 IRQ_TYPE_LEVEL_HIGH>,
+					<&tlmm 23 0>;
+		status = "disabled";
+		qcom,wakeup-byte = <0xFD>;
+		qcom,wrapper-core = <&qupv3_0>;
+	};
+
+	/*
+	 * qupv3_2 - /dev/ttyHS5
+	 */
+	qupv3_se19_2uart: qcom,qup_uart@894000 {
+		compatible = "qcom,msm-geni-serial-hs";
+		reg = <0x894000 0x4000>;
+		reg-names = "se_phys";
+		clock-names = "se-clk", "m-ahb", "s-ahb";
+		clocks = <&clock_gcc GCC_QUPV3_WRAP2_S5_CLK>,
+				<&clock_gcc GCC_QUPV3_WRAP_2_M_AHB_CLK>,
+				<&clock_gcc GCC_QUPV3_WRAP_2_S_AHB_CLK>;
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&qupv3_se19_rx>, <&qupv3_se19_tx>;
+		pinctrl-1 = <&qupv3_se19_rx>, <&qupv3_se19_tx>;
+		interrupts-extended = <&intc GIC_SPI 587 IRQ_TYPE_LEVEL_HIGH>,
+						<&tlmm 3 0>;
+		status = "disabled";
+		qcom,wakeup-byte = <0xFD>;
+		qcom,wrapper-core = <&qupv3_2>;
 	};
 
 		/* I2C */
@@ -485,27 +612,7 @@
 		qcom,change-sampling-rate;
 		status = "disabled";
 	};
-	qupv3_se13_4uart: qcom,qup_uart@a94000 {
-		compatible = "qcom,msm-geni-serial-hs";
-		reg = <0xa94000 0x4000>;
-		reg-names = "se_phys";
-		clock-names = "se-clk", "m-ahb", "s-ahb";
-		clocks = <&clock_gcc GCC_QUPV3_WRAP1_S5_CLK>,
-			<&clock_gcc GCC_QUPV3_WRAP_1_M_AHB_CLK>,
-			<&clock_gcc GCC_QUPV3_WRAP_1_S_AHB_CLK>;
-		pinctrl-names = "default", "active", "sleep";
-		pinctrl-0 = <&qupv3_se13_default_cts>,
-			<&qupv3_se13_default_rtsrx>, <&qupv3_se13_default_tx>;
-		pinctrl-1 = <&qupv3_se13_ctsrx>, <&qupv3_se13_rts>,
-							<&qupv3_se13_tx>;
-		pinctrl-2 = <&qupv3_se13_ctsrx>, <&qupv3_se13_rts>,
-							<&qupv3_se13_tx>;
-		interrupts-extended = <&intc GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>,
-					<&tlmm 39 0>;
-		status = "disabled";
-		qcom,wakeup-byte = <0xFD>;
-		qcom,wrapper-core = <&qupv3_1>;
-	};
+	
 
 		/* I2C */
 	qupv3_se8_i2c: i2c@a80000 {
@@ -761,16 +868,6 @@
 		status = "disabled";
 	};
 
-	/* QUPv3_2  wrapper  instance : South_2 QUP */
-	qupv3_2: qcom,qupv3_2_geni_se@8c0000 {
-		compatible = "qcom,qupv3-geni-se";
-		reg = <0x8c0000 0x2000>;
-		qcom,bus-mas-id = <MSM_BUS_MASTER_QUP_2>;
-		qcom,bus-slv-id = <MSM_BUS_SLAVE_EBI_CH0>;
-		iommus = <&apps_smmu 0x63 0x0>;
-		qcom,iommu-dma-addr-pool = <0x40000000 0xc0000000>;
-		qcom,iommu-dma = "fastmap";
-	};
 
 	/*
 	 * HS UART : Modem/Audio backup
@@ -790,45 +887,6 @@
 							<&qupv3_se17_tx>;
 		interrupts-extended = <&intc GIC_SPI 585 IRQ_TYPE_LEVEL_HIGH>,
 					<&tlmm 55 0>;
-		status = "disabled";
-		qcom,wakeup-byte = <0xFD>;
-		qcom,wrapper-core = <&qupv3_2>;
-	};
-
-	/*
-	 * HS UART : 2-wire Modem
-	 */
-	qupv3_se18_2uart: qcom,qup_uart@890000 {
-		compatible = "qcom,msm-geni-serial-hs";
-		reg = <0x890000 0x4000>;
-		reg-names = "se_phys";
-		clock-names = "se-clk", "m-ahb", "s-ahb";
-		clocks = <&clock_gcc GCC_QUPV3_WRAP2_S4_CLK>,
-				<&clock_gcc GCC_QUPV3_WRAP_2_M_AHB_CLK>,
-				<&clock_gcc GCC_QUPV3_WRAP_2_S_AHB_CLK>;
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&qupv3_se18_rx>, <&qupv3_se18_tx>;
-		pinctrl-1 = <&qupv3_se18_rx>, <&qupv3_se18_tx>;
-		interrupts-extended = <&intc GIC_SPI 586 IRQ_TYPE_LEVEL_HIGH>,
-						<&tlmm 59 0>;
-		status = "disabled";
-		qcom,wakeup-byte = <0xFD>;
-		qcom,wrapper-core = <&qupv3_2>;
-	};
-
-	qupv3_se19_2uart: qcom,qup_uart@894000 {
-		compatible = "qcom,msm-geni-serial-hs";
-		reg = <0x894000 0x4000>;
-		reg-names = "se_phys";
-		clock-names = "se-clk", "m-ahb", "s-ahb";
-		clocks = <&clock_gcc GCC_QUPV3_WRAP2_S5_CLK>,
-				<&clock_gcc GCC_QUPV3_WRAP_2_M_AHB_CLK>,
-				<&clock_gcc GCC_QUPV3_WRAP_2_S_AHB_CLK>;
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <&qupv3_se19_rx>, <&qupv3_se19_tx>;
-		pinctrl-1 = <&qupv3_se19_rx>, <&qupv3_se19_tx>;
-		interrupts-extended = <&intc GIC_SPI 587 IRQ_TYPE_LEVEL_HIGH>,
-						<&tlmm 3 0>;
 		status = "disabled";
 		qcom,wakeup-byte = <0xFD>;
 		qcom,wrapper-core = <&qupv3_2>;
