@@ -1163,6 +1163,138 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 	}
 		break;
 
+	case CAM_MAI_CCI_WRITE: {
+		struct cam_cci_direct_reg_setting write_setting;
+
+		// copy data from user in order to initialize structs
+		rc = copy_from_user(&write_setting, u64_to_user_ptr(cmd->handle), sizeof(write_setting));
+		if (rc < 0) {
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_WRITE]: Failed Copying from user: write_setting");
+			goto release_mutex;
+		}
+		
+		int write_size = sizeof(struct cam_sensor_i2c_reg_array) * write_setting.size;
+		void *pregs = kmalloc(write_size, GFP_KERNEL);;
+
+		rc = copy_from_user(pregs, u64_to_user_ptr(write_setting.reg_setting), write_size);
+		if (rc < 0) {
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_WRITE]: Failed Copying from user: write_setting.reg_setting");
+			if(pregs)
+				kfree(pregs);
+			goto release_mutex;
+		}
+
+		write_setting.reg_setting = pregs;
+		struct camera_io_master *io_master_info;
+		io_master_info = &s_ctrl->io_master_info;
+
+		// sanity checks
+		if (!io_master_info){
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_WRITE]: io_master_info null");
+			goto release_mutex;
+		}
+
+		if (!io_master_info->cci_client){
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_WRITE]: cci_client null");
+			goto release_mutex;
+		}
+
+		// save previous slave addr to revert back after
+		int32_t default_sid = s_ctrl->sensordata->slave_info.sensor_slave_addr;
+
+		// modify slave address
+		struct cam_cmd_i2c_info i2c_info;
+		i2c_info.slave_addr = write_setting.dev_addr;
+		i2c_info.i2c_freq_mode = s_ctrl->io_master_info.cci_client->i2c_freq_mode; // this doesn't change
+		cam_sensor_update_i2c_info(&i2c_info, s_ctrl, 1);
+
+		// write data
+		rc = camera_cci_dev_write(io_master_info, &write_setting);
+		if (rc < 0) {
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_WRITE]: camera_io_dev_write failed: %d", rc);
+		}
+
+		// revert back to default sid incase other process will want to operate on
+		// this sensor, such as CAMX
+		i2c_info.slave_addr = default_sid;
+		cam_sensor_update_i2c_info(&i2c_info, s_ctrl, 1);
+
+		// cleanup
+		if(pregs) kfree(pregs);
+
+	}
+		break;
+
+	case CAM_MAI_CCI_READ: {
+		struct cam_cci_direct_reg_setting read_setting;
+
+		// copy data from user in order to initialize structs
+		rc = copy_from_user(&read_setting, u64_to_user_ptr(cmd->handle), sizeof(read_setting));
+		if (rc < 0) {
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_READ]: Failed Copying from user: read_setting");
+			goto release_mutex;
+		}
+
+		int read_size = sizeof(struct cam_sensor_i2c_reg_array) * read_setting.size;
+		void *pregs = kmalloc(read_size, GFP_KERNEL);
+
+		rc = copy_from_user(pregs, u64_to_user_ptr(read_setting.reg_setting), read_size);
+		if (rc < 0) {
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_READ]: Failed Copying from user: read_setting.reg_setting");
+			if(pregs)
+				kfree(pregs);
+			goto release_mutex;
+		}
+
+		read_setting.reg_setting = pregs;
+		struct camera_io_master *io_master_info;
+		io_master_info = &s_ctrl->io_master_info;
+
+		// sanity checks
+		if (!io_master_info){
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_READ]: io_master_info null");
+			goto release_mutex;
+		}
+
+		if (!io_master_info->cci_client){
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_READ]: cci_client null");
+			goto release_mutex;
+		}
+
+		// save previous slave addr to revert back after
+		int32_t default_sid = s_ctrl->sensordata->slave_info.sensor_slave_addr;
+
+		// modify slave address
+		struct cam_cmd_i2c_info i2c_info;
+		i2c_info.slave_addr = read_setting.dev_addr;
+		i2c_info.i2c_freq_mode = s_ctrl->io_master_info.cci_client->i2c_freq_mode; // this doesn't change
+		cam_sensor_update_i2c_info(&i2c_info, s_ctrl, 1);
+
+		uint32_t rx_buf;
+		rc = camera_io_dev_read(
+			&(s_ctrl->io_master_info),
+			read_setting.reg_setting->reg_addr,
+			&rx_buf,
+			read_setting.addr_type,
+			read_setting.data_type);
+		if (rc < 0) {
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_CCI_READ]: camera_io_dev_write failed: rc=%d", rc);
+		}
+
+		// revert back to default sid incase other process will want to operate on
+		// this sensor, such as CAMX
+		i2c_info.slave_addr = default_sid;
+		cam_sensor_update_i2c_info(&i2c_info, s_ctrl, 1);
+
+		// data must be copied back to user to extract from kernel
+		// data will always come back as uint32_t
+		copy_to_user(u64_to_user_ptr(read_setting.read_buff), &rx_buf, sizeof(rx_buf));
+
+		if(pregs) kfree(pregs);
+
+	}
+		break;
+
 	default:
 		CAM_ERR(CAM_SENSOR, "Invalid Opcode: %d", cmd->op_code);
 		rc = -EINVAL;

@@ -62,6 +62,16 @@ int32_t cam_cci_i2c_write_table(
 /**
  * @client: CCI client structure
  * @write_setting: I2C register setting
+ *
+ * This API is MAI custom to handle CCI random write
+ */
+int32_t cam_cci_mai_write_table_cmd(
+	struct camera_io_master *client,
+	struct cam_cci_direct_reg_setting *write_setting);
+
+/**
+ * @client: CCI client structure
+ * @write_setting: I2C register setting
  * @cam_sensor_i2c_write_flag: burst or seq write
  *
  * This API handles CCI continuous write

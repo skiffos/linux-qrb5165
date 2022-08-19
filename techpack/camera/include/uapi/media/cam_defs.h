@@ -23,13 +23,18 @@
 #define CAM_FLUSH_REQ                           (CAM_COMMON_OPCODE_BASE + 0x8)
 #define CAM_COMMON_OPCODE_MAX                   (CAM_COMMON_OPCODE_BASE + 0x9)
 
-#define CAM_COMMON_OPCODE_BASE_v2           0x150
-#define CAM_ACQUIRE_HW                      (CAM_COMMON_OPCODE_BASE_v2 + 0x1)
-#define CAM_RELEASE_HW                      (CAM_COMMON_OPCODE_BASE_v2 + 0x2)
-#define CAM_DUMP_REQ                        (CAM_COMMON_OPCODE_BASE_v2 + 0x3)
+#define CAM_COMMON_OPCODE_BASE_v2           	0x150
+#define CAM_ACQUIRE_HW                      	(CAM_COMMON_OPCODE_BASE_v2 + 0x1)
+#define CAM_RELEASE_HW                      	(CAM_COMMON_OPCODE_BASE_v2 + 0x2)
+#define CAM_DUMP_REQ                        	(CAM_COMMON_OPCODE_BASE_v2 + 0x3)
 
 #define CAM_EXT_OPCODE_BASE                     0x200
 #define CAM_CONFIG_DEV_EXTERNAL                 (CAM_EXT_OPCODE_BASE + 0x1)
+
+/* Custom ModalAI op codes for allowing direct access to camera CCI R/W operations */
+#define CAM_MAI_CCI_READ                 		(CAM_EXT_OPCODE_BASE + 0x2)
+#define CAM_MAI_CCI_WRITE                		(CAM_EXT_OPCODE_BASE + 0x3)
+
 
 /* camera handle type */
 #define CAM_HANDLE_USER_POINTER                 1

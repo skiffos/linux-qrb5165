@@ -146,6 +146,30 @@ int32_t camera_io_dev_write(struct camera_io_master *io_master_info,
 	}
 }
 
+int32_t camera_cci_dev_write(struct camera_io_master *io_master_info,
+	struct cam_cci_direct_reg_setting *write_setting)
+{
+	if (!write_setting || !io_master_info) {
+		CAM_ERR(CAM_SENSOR,
+			"Input parameters not valid ws: %pK ioinfo: %pK",
+			write_setting, io_master_info);
+		return -EINVAL;
+	}
+	if (!write_setting->reg_setting) {
+		CAM_ERR(CAM_SENSOR, "Invalid Register Settings");
+		return -EINVAL;
+	}
+
+	if (io_master_info->master_type == CCI_MASTER) {
+		return cam_cci_mai_write_table_cmd(io_master_info,
+			write_setting);
+	} else {
+		CAM_ERR(CAM_SENSOR, "Invalid Comm. Master:%d",
+			io_master_info->master_type);
+		return -EINVAL;
+	}
+}
+
 int32_t camera_io_dev_write_continuous(struct camera_io_master *io_master_info,
 	struct cam_sensor_i2c_reg_setting *write_setting,
 	uint8_t cam_sensor_i2c_write_flag)

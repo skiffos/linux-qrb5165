@@ -269,6 +269,18 @@ struct cam_sensor_i2c_reg_array {
 	uint32_t data_mask;
 };
 
+// Custom struct from ModalAI for
+// allowing direct access to CCI R/W
+struct cam_cci_direct_reg_setting {
+	uint32_t dev_addr;
+	struct cam_sensor_i2c_reg_array *reg_setting;
+	uint32_t size;
+	enum camera_sensor_i2c_type addr_type;
+	enum camera_sensor_i2c_type data_type;
+	unsigned short delay;
+	uint32_t *read_buff;
+};
+
 struct cam_sensor_i2c_reg_setting {
 	struct cam_sensor_i2c_reg_array *reg_setting;
 	uint32_t size;
