@@ -13,7 +13,7 @@
 	status = "disabled";
 };
 
-/* M0054 - J7 - Camera Group 1 - GPIO 4-7 */
+/* M0052 - J7 - Camera Group 1 - GPIO 4-7 */
 &qupv3_se1_spi {
 	status = "ok";
 	spidev@0 {
@@ -33,18 +33,18 @@
 	};
 };
 
-/* M0054 - J8 - Camera Group 2 - GPIO 12-15 */
-&qupv3_se5_spi {
+/* M0054 - J8 - Camera Group 2 - GPIO 14-15 - /dev/ttyHS3 */
+&qupv3_se5_2uart {
 	status = "ok";
-	spidev@0 {
-		compatible = "spidev";
-		reg = <0>;
-		spi-max-frequency = <50000000>;
-	};
 };
 
-/* M0052 - HST_BT_UART?, GPIO 16-19 */
+/* M0052 - SOM WiFi, GPIO 16-19 - /dev/ttyHS0 */
 &qupv3_se6_4uart {
+	status = "ok";
+};
+
+/* M0052 - J3 B2B pins 3/5 - /dev/ttyHS4 */
+&qupv3_se7_2uart {
 	status = "ok";
 };
 
@@ -63,12 +63,12 @@
 	status = "ok";
 };
 
-/* M0052 - RC Input - GPIO 38-39 */
+/* M0052 - RC Input - GPIO 38-39 - /dev/ttyHS1 */
 &qupv3_se13_4uart {
 	status = "ok";
 };
 
-/* M0052 - GNSS Input - GPIO 58-59 */
+/* M0052 - GNSS Input - GPIO 58-59 - /dev/ttyHS2 */
 &qupv3_se18_2uart {
 	status = "ok";
 };
@@ -88,7 +88,7 @@
 	status = "disabled";
 };
 
-/* HSB2B - External 2W UART, GPIO 2/3, HS B2B Pins 48/49 */
+/* HSB2B - External 2W UART, GPIO 2/3, HS B2B Pins 48/49 - /dev/ttyHS5 */
 &qupv3_se19_2uart {
 	status = "ok";
 };

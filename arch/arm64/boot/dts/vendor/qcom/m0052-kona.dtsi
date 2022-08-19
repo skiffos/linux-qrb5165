@@ -51,10 +51,12 @@
 		pci-domain0 = &pcie0; /* PCIe0 domain */
 		pci-domain1 = &pcie1; /* PCIe1 domain */
 		pci-domain2 = &pcie2; /* PCIe2 domain */
-		serial0 = &qupv3_se2_2uart;  /* HS B2B pins 9/10 */
+		serial0 = &qupv3_se6_4uart;  /* SOM WiFi */ 
 		serial1 = &qupv3_se13_4uart; /* J12/RC */
 		serial2 = &qupv3_se18_2uart; /* J19/GNSS */
-		serial3 = &qupv3_se19_2uart; /* B2B UART */
+		serial3 = &qupv3_se5_2uart;  /* J8 Camera Connector */
+		serial4 = &qupv3_se7_2uart;  /* J3 B2B pins 3/5 */
+		serial5 = &qupv3_se19_2uart; /* J5 HS B2B pins 48/49 */
 		swr0 = &swr0;
 		swr1 = &swr1;
 		swr2 = &swr2;
@@ -62,7 +64,6 @@
 		spi0 = &qupv3_se0_spi;
 		spi1 = &qupv3_se1_spi;
 		spi3 = &qupv3_se3_spi;
-		spi5 = &qupv3_se5_spi;
 		spi14 = &qupv3_se14_spi;
 	};
 
