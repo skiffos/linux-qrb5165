@@ -1295,6 +1295,23 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 	}
 		break;
 
+	case CAM_MAI_GET_CAM_INFO: {
+		struct cam_cci_direct_cam_info cam_info;
+
+		cam_info.camera_slot 	  = s_ctrl->soc_info.index;
+		cam_info.slave_addr  	  = s_ctrl->sensordata->slave_info.sensor_slave_addr;
+		cam_info.sensor_id   	  = s_ctrl->sensordata->slave_info.sensor_id;
+		cam_info.is_probe_success = s_ctrl->is_probe_succeed;
+
+		// copy data to user
+		rc = copy_to_user(u64_to_user_ptr(cmd->handle), &cam_info, sizeof(struct cam_cci_direct_cam_info));
+		if (rc < 0) {
+			CAM_ERR(CAM_SENSOR, "[CAM_MAI_GET_CAM_INFO]: Failed Copying to user: cam_info");
+			goto release_mutex;
+		}
+	}
+		break;
+
 	default:
 		CAM_ERR(CAM_SENSOR, "Invalid Opcode: %d", cmd->op_code);
 		rc = -EINVAL;

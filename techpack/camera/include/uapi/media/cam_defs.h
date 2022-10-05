@@ -34,6 +34,7 @@
 /* Custom ModalAI op codes for allowing direct access to camera CCI R/W operations */
 #define CAM_MAI_CCI_READ                 		(CAM_EXT_OPCODE_BASE + 0x2)
 #define CAM_MAI_CCI_WRITE                		(CAM_EXT_OPCODE_BASE + 0x3)
+#define CAM_MAI_GET_CAM_INFO                	(CAM_EXT_OPCODE_BASE + 0x4)
 
 
 /* camera handle type */

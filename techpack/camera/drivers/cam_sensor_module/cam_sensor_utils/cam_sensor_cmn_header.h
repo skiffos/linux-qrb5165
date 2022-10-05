@@ -281,6 +281,15 @@ struct cam_cci_direct_reg_setting {
 	uint32_t *read_buff;
 };
 
+// Custom ModalAI struct that probes for sensor
+// information
+struct cam_cci_direct_cam_info {
+	uint32_t camera_slot;
+	uint16_t slave_addr;
+	uint16_t sensor_id;
+	uint8_t is_probe_success;
+};
+
 struct cam_sensor_i2c_reg_setting {
 	struct cam_sensor_i2c_reg_array *reg_setting;
 	uint32_t size;
