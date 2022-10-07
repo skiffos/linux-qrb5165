@@ -83,6 +83,16 @@ int32_t camera_io_dev_write(struct camera_io_master *io_master_info,
 /**
  * @io_master_info: I2C/SPI master information
  * @write_setting: write settings information
+ *
+ * This API abstracts write functionality based on master type
+ * MAI function for utilizing cci direct struct
+ */
+int32_t camera_cci_dev_write(struct camera_io_master *io_master_info,
+	struct cam_cci_direct_reg_setting *write_setting);
+
+/**
+ * @io_master_info: I2C/SPI master information
+ * @write_setting: write settings information
  * @cam_sensor_i2c_write_flag: differentiate between burst & seq
  *
  * This API abstracts write functionality based on master type and

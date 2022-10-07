@@ -133,6 +133,44 @@ static int32_t cam_cci_i2c_write_table_cmd(
 	return rc;
 }
 
+int32_t cam_cci_mai_write_table_cmd(
+	struct camera_io_master *client,
+	struct cam_cci_direct_reg_setting *write_setting)
+{
+	int32_t rc = -EINVAL;
+	struct cam_cci_ctrl cci_ctrl;
+
+	if (!client || !write_setting)
+		return rc;
+
+	if (write_setting->addr_type <= CAMERA_SENSOR_I2C_TYPE_INVALID
+		|| write_setting->addr_type >= CAMERA_SENSOR_I2C_TYPE_MAX
+		|| write_setting->data_type <= CAMERA_SENSOR_I2C_TYPE_INVALID
+		|| write_setting->data_type >= CAMERA_SENSOR_I2C_TYPE_MAX)
+		return rc;
+
+	cci_ctrl.cmd = MSM_CCI_I2C_WRITE;
+	cci_ctrl.cci_info = client->cci_client;
+	cci_ctrl.cfg.cci_i2c_write_cfg.reg_setting =
+		write_setting->reg_setting;
+	cci_ctrl.cfg.cci_i2c_write_cfg.data_type = write_setting->data_type;
+	cci_ctrl.cfg.cci_i2c_write_cfg.addr_type = write_setting->addr_type;
+	cci_ctrl.cfg.cci_i2c_write_cfg.size = write_setting->size;
+	rc = v4l2_subdev_call(client->cci_client->cci_subdev,
+		core, ioctl, VIDIOC_MSM_CCI_CFG, &cci_ctrl);
+	if (rc < 0) {
+		CAM_ERR(CAM_SENSOR, "Failed rc = %d", rc);
+		return rc;
+	}
+	rc = cci_ctrl.status;
+	if (write_setting->delay > 20)
+		msleep(write_setting->delay);
+	else if (write_setting->delay)
+		usleep_range(write_setting->delay * 1000, (write_setting->delay
+			* 1000) + 1000);
+
+	return rc;
+}
 
 int32_t cam_cci_i2c_write_table(
 	struct camera_io_master *client,
